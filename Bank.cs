@@ -66,9 +66,11 @@
 
     public void AddUser(string username, string pin, decimal inititalBalance)
     {
+        Database database = Database.Connect();
         if (!users.ContainsKey(username))
         {
             users.Add(username, new User(username, pin, inititalBalance));
+            database.CreateUser(username, pin, inititalBalance);
             Console.WriteLine($"Kunde {username} tilføjet succesfuldt");
         }
         else
