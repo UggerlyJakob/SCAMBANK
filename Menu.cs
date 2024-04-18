@@ -1,4 +1,6 @@
-﻿public class Menu
+﻿using System.Net;
+
+public class Menu
 {
     public static void ShowCustomerMenu(Bank bank, string currentUser)
     {
@@ -61,6 +63,7 @@
         Console.WriteLine("1. Add Customer");
         Console.WriteLine("2. Remove Customer");
         Console.WriteLine("3. Show All Customers");
+        Console.WriteLine("4. Database");
         Console.Write("Enter your choice: ");
         string choice = Console.ReadLine();
 
@@ -93,10 +96,44 @@
                 Console.Clear();
                 bank.ShowAllCustomers();
                 break;
+            case "4":
+                Console.Clear();
+                DatabaseMenu();
+                break;
             default:
                 Console.Clear();
                 Console.WriteLine("Invalid choice. Please try again.");
                 break;
         }
+    }
+    public static void DatabaseMenu() 
+    {
+        Console.WriteLine("Enter username:");
+        string username = Console.ReadLine();
+        Console.WriteLine("Enter password");
+        string password = Console.ReadLine();
+
+        Console.WriteLine("Database Menu:");
+        Console.WriteLine("1. Create tables");
+        Console.WriteLine("2. Remove tables");
+        Console.WriteLine("3. Go back");
+        Console.Write("Enter your choice: ");
+        int choice = 0;
+        Database database = Database.Connect(username, password);
+        do 
+        {
+            int.TryParse(Console.ReadLine(), out choice);
+            switch (choice) 
+            {
+                case 1:
+                    database.CreateTables();
+                    break;
+                case 2:
+                    database.RemoveTables();;
+                    break;
+                case 3:
+                    return;
+            }
+        } while (choice < 1 && choice > 3);
     }
 }
